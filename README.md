@@ -62,10 +62,12 @@ Please Don't Attack '.gov'  and '.edu' Websites
     cd 36DDoS
     pip3 install -r requirements.txt
     python3 start.py help
+    
     python3 start.py <method> <url> <socks_type> <threads> <proxylist> <workers> <time>
     Example: python3 start.py CFB https://example.com 5 1000 socks5.txt 100 100
-    Check website monitoring in https://check-host.net/
 ```
+
+Check website monitoring in https://check-host.net/
 
 ## LEGAL NOTICE
 THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL USE ONLY! 
