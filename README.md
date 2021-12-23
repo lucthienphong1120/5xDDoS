@@ -1,4 +1,4 @@
-# precursor: MHDDoS by MH_ProDev
+# precursor: MHDDoS by MH ProDev
 
 36DDoS is only a tool for SECURITY TESTING PURPOSES!
 
