@@ -57,7 +57,7 @@ Please Don't Attack '.gov'  and '.edu' Websites
 
 ## Usage
 
-```console
+```sh
     git clone https://github.com/lucthienphong1120/36DDoS
     cd 36DDoS
     pip3 install -r requirements.txt
