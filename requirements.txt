@@ -5,5 +5,5 @@ requests==2.27.1
 impacket==0.9.23
 psutil>=5.9.0
 icmplib>=2.1.1
-PyRoxy
+git+https://github.com/MHProDev/PyRoxy.git
 yarl~=1.7.2
