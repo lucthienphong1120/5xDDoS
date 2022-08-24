@@ -23,8 +23,8 @@ Please Don't Attack `.gov`  and `.edu` Websites
    * <img src="https://pbs.twimg.com/profile_images/1351562987224641544/IKb4q_yd_400x400.jpg" width="16" height="16" alt="dyn"> DYN | A New Method With Random SubDomain
    * <img src="https://cdn-icons-png.flaticon.com/512/6991/6991643.png" width="16" height="16" alt="downloader"> DOWNLOADER | A New Method of Reading data slowly
    * <img src="https://cdn2.iconfinder.com/data/icons/poison-and-venom-fill/160/loris2-512.png" width="16" height="16" alt="slow"> SLOW | Slowloris Old Method of DDoS
-   * <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-how-work-icon.png" width="16" height="16" alt="head"> HEAD | https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD
-   * <img src="https://img.icons8.com/plasticine/2x/null-symbol.png" width="16" height="16" alt="null"> NULL | Null UserAgent and ...
+   * <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-how-work-icon.png" width="16" height="16" alt="head"> HEAD | HTTP HEAD method requests
+   * <img src="https://img.icons8.com/plasticine/2x/null-symbol.png" width="16" height="16" alt="null"> NULL | Null UserAgent and etc
    * <img src="https://i.pinimg.com/originals/03/2e/7d/032e7d0755cd511c753bcb6035d44f68.png" width="16" height="16" alt="cookie"> COOKIE | Random Cookie PHP 'if (isset($_COOKIE))'
    * <img src="https://cdn0.iconfinder.com/data/icons/dicticons-files-folders/32/office_pps-512.png" width="16" height="16" alt="pps"> PPS |  Only 'GET / HTTP/1.1\r\n\r\n'
    * <img src="https://cdn3.iconfinder.com/data/icons/internet-security-14/48/DDoS_website_webpage_bomb_virus_protection-512.png" width="16" height="16" alt="even"> EVEN | GET Method with more header
