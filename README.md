@@ -1,12 +1,12 @@
-# precursor: MHDDoS by MH ProDev
+# 5xDDoS
 
-36DDoS is only a tool for SECURITY TESTING PURPOSES!
+5xDDoS is only a tool for SECURITY TESTING PURPOSES!
 
-36DDoS is a DDoS tool with great attack power, be careful when using it
+5xDDoS is a DDoS tool with great attack power, be careful when using it
 
-Please Don't Attack '.gov'  and '.edu' Websites
+Please Don't Attack `.gov`  and `.edu` Websites
 
-## Method
+## Methods
 
  * Layer7
    * GET | GET Flood
@@ -55,7 +55,7 @@ Please Don't Attack '.gov'  and '.edu' Websites
   * HELP | Show Usge Script
   
 
-## Usage
+## Usages
 
 ```sh
     git clone https://github.com/lucthienphong1120/36DDoS
