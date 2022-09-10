@@ -12,8 +12,7 @@ Please Don't Attack `.gov`  and `.edu` Websites
 
 ## Methods
 
-  * 💣 Layer7
-
+* 💣 Layer7
    * <img src="https://img.icons8.com/cotton/344/domain.png" width="16" height="16" alt="get"> GET | GET Flood
    * <img src="https://cdn0.iconfinder.com/data/icons/database-storage-5/60/server__database__fire__burn__safety-512.png" width="16" height="16" alt="post"> POST | POST Flood
    * <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f9/OVH_Logo.svg/1200px-OVH_Logo.svg.png" width="16" height="16" alt="ovh"> OVH | Bypass OVH
