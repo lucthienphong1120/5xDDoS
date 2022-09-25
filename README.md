@@ -94,8 +94,8 @@ Check website monitoring in https://check-host.net/
 
 ## LEGAL NOTICE
 
-THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL USE ONLY!
+This software is provided for educational purpose only!
 
-IF YOU ENGAGE IN ANY ILLEGAL ACTIVITY THE AUTHOR DOES NOT TAKE ANY RESPONSIBILITY FOR IT.
+If you engage in any illegal activities, the author does not take any responsibility for it.
 
-BY USING THIS SOFTWARE YOU AGREE WITH THESE TERMS.
+By using this softwarem you agree with these terms!
