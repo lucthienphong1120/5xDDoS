@@ -1,4 +1,4 @@
-# 5xDDoS v2.3
+# 5xDDoS v2.4.1
 
 5xDDoS is only a tool for SECURITY TESTING PURPOSES!
 
