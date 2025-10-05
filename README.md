@@ -1,4 +1,4 @@
-# 5xDDoS v2.4.1
+# 5xDDoS v2.4.3
 
 5xDDoS is only a tool for SECURITY TESTING PURPOSES!
 
@@ -8,7 +8,9 @@ Please Don't Attack `.gov`  and `.edu` Websites
 
 ## Screenshot
 
-![image](https://user-images.githubusercontent.com/90561566/186462172-693b7b7b-9ffb-48cc-877b-79879d1add3d.png)
+<img width="1280" height="645" alt="image" src="https://github.com/user-attachments/assets/aa6cab15-75d3-494e-baf2-d6396e98081e" />
+
+<img width="1301" height="410" alt="image" src="https://github.com/user-attachments/assets/559abe34-16d0-46e2-84fb-9dd86ed443a4" />
 
 ## Features And Methods
 
@@ -29,7 +31,7 @@ Please Don't Attack `.gov`  and `.edu` Websites
    * <img src="https://cdn0.iconfinder.com/data/icons/dicticons-files-folders/32/office_pps-512.png" width="16" height="16" alt="pps"> PPS |  Only 'GET / HTTP/1.1\r\n\r\n'
    * <img src="https://cdn3.iconfinder.com/data/icons/internet-security-14/48/DDoS_website_webpage_bomb_virus_protection-512.png" width="16" height="16" alt="even"> EVEN | GET Method with more header
    * <img src="https://iili.io/HU9BC74.png" width="16" height="16" alt="googleshield"> GSB | Google Project Shield Bypass
-   * <img src="https://seeklogo.com/images/D/ddos-guard-logo-CFEFCA409C-seeklogo.com.png" width="16" height="16" alt="DDoSGuard"> DGB | DDoS Guard Bypass
+   * <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/DDoS-Guard_logo.svg/1200px-DDoS-Guard_logo.svg.png" width="16" height="16" alt="DDoSGuard"> DGB | DDoS Guard Bypass
    * <img src="https://i.imgur.com/bGL8qfw.png" width="16" height="16" alt="ArvanCloud"> AVB | Arvan Cloud Bypass
    * <img src="https://iili.io/HU9BC74.png" width="16" height="16" alt="Google bot"> BOT | Like Google bot
    * <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Apache_HTTP_Server_Logo_%282016%29.svg/1000px-Apache_HTTP_Server_Logo_%282016%29.svg.png" width="16" height="16" alt="Apache Webserver"> APACHE | Apache Expliot
@@ -55,8 +57,8 @@ Please Don't Attack `.gov`  and `.edu` Websites
   * <img src="https://cdn.iconscout.com/icon/free/png-512/redis-4-1175103.png" width="16" height="16" alt="mem"> MEM | Memcached Amplification
   * <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-attack-icon.png" width="16" height="16" alt="ntp"> NTP | NTP Amplification
   * <img src="https://cdn-icons-png.flaticon.com/512/4712/4712139.png" width="16" height="16" alt="mcbot"> MCBOT | Minecraft Bot Attack
-  * <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/minecraft_logo_icon_168974.png" width="16" height="16" alt="minecraft"> MINECRAFT | Minecraft Status Ping Protocol
-  * <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/minecraft_logo_icon_168974.png" width="16" height="16" alt="minecraft pe"> MCPE | Minecraft PE Status Ping Protocol
+  * <img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg" width="16" height="16" alt="minecraft"> MINECRAFT | Minecraft Status Ping Protocol
+  * <img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg" width="16" height="16" alt="minecraft pe"> MCPE | Minecraft PE Status Ping Protocol
   * <img src="https://cdn-icons-png.flaticon.com/512/2653/2653461.png" width="16" height="16" alt="dns"> DNS | DNS Amplification
   * <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-attack-icon.png" width="16" height="16" alt="chargen"> CHAR | Chargen Amplification
   * <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRct5OvjSCpUftyRMm3evgdPOa-f8LbwJFO-A&usqp=CAU" width="16" height="16" alt="cldap"> CLDAP | Cldap Amplification
@@ -64,9 +66,9 @@ Please Don't Attack `.gov`  and `.edu` Websites
   * <img src="https://www.tenforums.com/geek/gars/images/2/types/thumb__emote__esktop__onnection.png" width="16" height="16" alt="rdp"> RDP |  Remote Desktop Protocol Amplification
 
 * ⚙️ Tools - Runs With 
-```
+`
 python3 start.py tools
-```
+`
   * 🌟 CFIP | Find Real IP Address Of Websites Powered By Cloudflare
   * 🔪 DNS | Show DNS Records Of Sites
   * 📍  TSSRV | TeamSpeak SRV Resolver
@@ -78,6 +80,19 @@ python3 start.py tools
   * ❌ STOP | STOP All Attacks
   * 🌠 TOOLS | Console Tools
   * 👑 HELP | Show Usage Script
+
+## Requirements
+
+* [dnspython](https://github.com/rthalley/dnspython)
+* [cfscrape](https://github.com/Anorov/cloudflare-scrape)
+* [impacket](https://github.com/SecureAuthCorp/impacket)
+* [requests](https://github.com/psf/requests)
+* [Python3][python3]
+* [PyRoxy](https://github.com/lucthienphong1120/PyRoxy)
+* [icmplib](https://github.com/ValentinBELYN/icmplib)
+* [certifi](https://github.com/certifi/python-certifi)
+* [psutil](https://github.com/giampaolo/psutil)
+* [yarl](https://github.com/aio-libs/yarl)
 
 ## Usages
 
