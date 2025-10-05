@@ -165,8 +165,8 @@ BYTES_SEND = Counter()
 
 
 class Tools:
-    IP = compile("(?:\d{1,3}\.){3}\d{1,3}")
-    protocolRex = compile('"protocol":(\d+)')
+    IP = compile("(?:\\d{1,3}\\.){3}\\d{1,3}")
+    protocolRex = compile('"protocol":(\\d+)')
 
     @staticmethod
     def humanbytes(i: int, binary: bool = False, precision: int = 2):
@@ -1285,7 +1285,7 @@ class ToolsConsole:
 
     @staticmethod
     def runConsole():
-        cons = f"{gethostname()}@5xDDoS:~#"
+        cons = f"{gethostname()}@MHTools:~#"
 
         while 1:
             cmd = input(cons + " ").strip()
@@ -1599,7 +1599,7 @@ if __name__ == '__main__':
                             or bombardier_path.with_suffix('.exe').exists()
                     ), (
                         "Install bombardier: "
-                        "https://www.google.com/search?q=BOMB-method"
+                        "https://github.com/MHProDev/5xDDoS/wiki/BOMB-method"
                     )
 
                 if len(argv) == 9:
@@ -1649,7 +1649,7 @@ if __name__ == '__main__':
 
                 if method in Methods.LAYER4_AMP:
                     logger.warning("this method need spoofable servers please check")
-                    logger.warning("https://www.google.com/search?q=Amplification-ddos-attack")
+                    logger.warning("https://github.com/MHProDev/5xDDoS/wiki/Amplification-ddos-attack")
 
                 threads = int(argv[3])
                 timer = int(argv[4])
